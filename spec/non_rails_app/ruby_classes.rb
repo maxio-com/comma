@@ -29,3 +29,29 @@ class Isbn
 
   def authority; 'ISBN'; end
 end
+
+class NestedField
+  attr_accessor :name, :address, :number, :fields
+
+  def initialize(name, address, number, fields = [])
+    @name, @address, @number, @fields =  name, address, number, fields
+  end
+
+  comma do
+    name
+    address
+    number
+    collection :fields do |n_field, column, object|
+      column.name  = object.name
+      column.value = object.value
+    end
+  end
+end
+
+class Field
+  attr_accessor :name, :value
+
+  def initialize(name, value)
+    @name, @value = name, value
+  end
+end

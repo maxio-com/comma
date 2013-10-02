@@ -68,6 +68,20 @@ describe Comma, 'generating CSV' do
   end
 end
 
+describe Comma, 'generating CSV with dynamic fields' do
+  let(:fields) do
+    [].tap do |a|
+      a << Field.new("Dyn1", "valA")
+      a << Field.new("Dyn2", "valB")
+    end
+  end
+  let(:nested_field) { NestedField.new("Fred", "111 Stone St.", "867-5309", fields) }
+
+  it 'should extend Array to add a #to_comma method which will return CSV content for objects within the array' do
+    [nested_field].to_comma.should == "Name,Address,Number,Dyn1,Dyn2\nFred,111 Stone St.,867-5309,valA,valB\n"
+  end
+end
+
 describe Comma, 'defining CSV descriptions' do
 
   describe 'with an unnamed description' do
