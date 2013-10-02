@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
 require 'comma/extractor'
+require 'comma/collection_extractor'
+require 'ostruct'
 
 module Comma
   class DataExtractor < Extractor
+
+    def collection(method, &block)
+      Comma::CollectionExtractor.new(@instance, method, &block).extract_values.each do |result|
+        @results << result
+      end
+    end
+
     class ExtractValueFromInstance
       def initialize(instance)
         @instance = instance

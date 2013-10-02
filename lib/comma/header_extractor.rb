@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'comma/extractor'
+require 'comma/collection_extractor'
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/date_time/conversions'
 require 'active_support/core_ext/object/blank'
@@ -15,7 +16,13 @@ module Comma
     end
     self.value_humanizer = DEFAULT_VALUE_HUMANIZER
 
-    def method_missing(sym, *args, &_block)
+    def collection(method, &block)
+      Comma::CollectionExtractor.new(@instance, method, &block).extract_header.each do |result|
+        @results << result
+      end
+    end
+
+    def method_missing(sym, *args, &block)
       model_class = @instance.class
       @results << value_humanizer.call(sym, model_class) if args.blank?
       args.each do |arg|
