@@ -2,6 +2,7 @@
 
 require 'comma/extractor'
 require 'comma/collection_extractor'
+require 'comma/multi_collection_extractor'
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/date_time/conversions'
 require 'active_support/core_ext/object/blank'
@@ -18,6 +19,12 @@ module Comma
 
     def collection(method, &block)
       Comma::CollectionExtractor.new(@instance, method, &block).extract_header.each do |result|
+        @results << result
+      end
+    end
+
+    def multicolumn_collection(method, &block)
+      Comma::MultiCollectionExtractor.new(@instance, method, &block).extract_header.each do |result|
         @results << result
       end
     end

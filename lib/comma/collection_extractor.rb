@@ -25,7 +25,7 @@ module Comma
       [].tap do |a|
         objects = instance.send(method)
         [objects].flatten.compact.each do |object|
-          column = OpenStruct.new(:header_name => nil, :value => nil)
+          column = OpenStruct.new(:name => nil, :value => nil)
           block.yield instance, column, object
           a << column
         end
