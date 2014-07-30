@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'comma/extractor'
 require 'comma/collection_extractor'
+require 'comma/multi_collection_extractor'
 require 'ostruct'
 
 module Comma
@@ -9,6 +10,12 @@ module Comma
 
     def collection(method, &block)
       Comma::CollectionExtractor.new(@instance, method, &block).extract_values.each do |result|
+        @results << result
+      end
+    end
+
+    def multicolumn_collection(method, &block)
+      Comma::MultiCollectionExtractor.new(@instance, method, &block).extract_values.each do |result|
         @results << result
       end
     end

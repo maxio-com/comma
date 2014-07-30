@@ -48,10 +48,31 @@ class NestedField
   end
 end
 
+class MultiAttributeField
+  attr_accessor :name, :address, :number, :fields
+
+  def initialize(name, address, number, fields = [])
+    @name, @address, @number, @fields =  name, address, number, fields
+  end
+
+  comma do
+    name
+    multicolumn_collection :fields do |result, object|
+      result << {'name' => 'OBJ ~ ID',    'value' => object.id}
+      result << {'name' => 'OBJ ~ Name',  'value' => object.name}
+      result << {'name' => 'OBJ ~ Value', 'value' => object.value}
+    end
+  end
+end
+
 class Field
   attr_accessor :name, :value
 
   def initialize(name, value)
     @name, @value = name, value
+  end
+
+  def id
+    123
   end
 end
