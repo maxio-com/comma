@@ -31,18 +31,18 @@ class Isbn
 end
 
 class MultiAttributeField
-  attr_accessor :name, :address, :number, :fields
+  attr_accessor :name, :address, :number, :children
 
-  def initialize(name, address, number, fields = [])
-    @name, @address, @number, @fields =  name, address, number, fields
+  def initialize(name, address, number, children = [])
+    @name, @address, @number, @children =  name, address, number, children
   end
 
   comma do
     name
-    multicolumn :fields do |result, object|
-      result << {'name' => 'OBJ ~ ID',    'value' => object.id}
-      result << {'name' => 'OBJ ~ Name',  'value' => object.name}
-      result << {'name' => 'OBJ ~ Value', 'value' => object.value}
+    multicolumn :children do |result, field, child|
+      result << {'name' => 'OBJ ~ ID',    'value' => child.id}
+      result << {'name' => 'OBJ ~ Name',  'value' => child.name}
+      result << {'name' => 'OBJ ~ Value', 'value' => child.value}
     end
   end
 end
