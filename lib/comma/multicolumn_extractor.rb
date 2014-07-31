@@ -1,7 +1,7 @@
 require "ostruct"
 
 module Comma
-  class CollectionExtractor
+  class MulticolumnExtractor
     attr_accessor :instance, :method, :block
 
     def initialize(instance, method, &block)
@@ -22,12 +22,12 @@ module Comma
     end
 
     def build_results
-      [].tap do |a|
+      [].tap do |output|
         objects = instance.send(method)
         [objects].flatten.compact.each do |object|
-          column = OpenStruct.new(:name => nil, :value => nil)
-          block.yield instance, column, object
-          a << column
+          memo   = Array.new
+          block.yield memo, object
+          memo.each{|m| output << OpenStruct.new(m) }
         end
       end
     end

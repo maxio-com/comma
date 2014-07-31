@@ -37,24 +37,6 @@ class Isbn
   end
 end
 
-class NestedField
-  attr_accessor :name, :address, :number, :fields
-
-  def initialize(name, address, number, fields = [])
-    @name, @address, @number, @fields =  name, address, number, fields
-  end
-
-  comma do
-    name
-    address
-    number
-    collection :fields do |n_field, column, object|
-      column.name  = object.name
-      column.value = object.value
-    end
-  end
-end
-
 class MultiAttributeField
   attr_accessor :name, :address, :number, :fields
 
@@ -64,7 +46,7 @@ class MultiAttributeField
 
   comma do
     name
-    multicolumn_collection :fields do |result, object|
+    multicolumn :fields do |result, object|
       result << {'name' => 'OBJ ~ ID',    'value' => object.id}
       result << {'name' => 'OBJ ~ Name',  'value' => object.name}
       result << {'name' => 'OBJ ~ Value', 'value' => object.value}

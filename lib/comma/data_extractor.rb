@@ -1,21 +1,14 @@
 # frozen_string_literal: true
 
 require 'comma/extractor'
-require 'comma/collection_extractor'
-require 'comma/multi_collection_extractor'
+require 'comma/multicolumn_extractor'
 require 'ostruct'
 
 module Comma
   class DataExtractor < Extractor
 
-    def collection(method, &block)
-      Comma::CollectionExtractor.new(@instance, method, &block).extract_values.each do |result|
-        @results << result
-      end
-    end
-
-    def multicolumn_collection(method, &block)
-      Comma::MultiCollectionExtractor.new(@instance, method, &block).extract_values.each do |result|
+    def multicolumn(method, &block)
+      Comma::MulticolumnExtractor.new(@instance, method, &block).extract_values.each do |result|
         @results << result
       end
     end
