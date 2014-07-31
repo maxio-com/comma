@@ -23,10 +23,10 @@ module Comma
 
     def build_results
       [].tap do |output|
-        objects = instance.send(method)
-        [objects].flatten.compact.each do |object|
-          memo   = Array.new
-          block.yield memo, object
+        children = instance.send(method)
+        [children].flatten.compact.each do |child|
+          memo = Array.new
+          block.yield memo, instance, child
           memo.each{|m| output << OpenStruct.new(m) }
         end
       end
