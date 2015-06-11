@@ -29,11 +29,20 @@ module Comma
       end
 
       def extract_value(method)
-        extraction_object.send(method)
+        output = extraction_object.send(method)
+        time_zone_adjusted_value(output)
       end
 
       def extraction_object
         @instance
+      end
+
+      def time_zone_adjusted_value(output)
+        if output.respond_to?(:current_time_zone) && output.current_time_zone
+          output.in_time_zone(output.current_time_zone)
+        else
+          output
+        end
       end
     end
 
