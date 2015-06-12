@@ -38,8 +38,8 @@ module Comma
       end
 
       def time_zone_adjusted_value(output)
-        if output.respond_to?(:current_time_zone) && output.current_time_zone
-          output.in_time_zone(output.current_time_zone)
+        if output.respond_to?(:in_time_zone) && extraction_object.respond_to?(:current_time_zone) && extraction_object.current_time_zone
+          output.in_time_zone(extraction_object.current_time_zone)
         else
           output
         end
