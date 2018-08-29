@@ -6,9 +6,9 @@ require 'action_view/railtie'
 # orm configs
 require 'rails_app/active_record/config' if defined?(ActiveRecord)
 
-app = CommaTestApp = Class.new(Rails::Application)
-app.config.secret_token = '6f6acf0443f74fd0aa8ff07a7c2fbe0a'
-app.config.session_store :cookie_store, key: '_rails_app_session'
+app = Class.new(Rails::Application)
+app.config.secret_token = 'notarealsecrettoken'
+app.config.session_store :cookie_store, :key => '_rails_app_session'
 app.config.active_support.deprecation = :log
 app.config.eager_load = false
 app.config.root = File.dirname(__FILE__)
