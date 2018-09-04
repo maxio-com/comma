@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'pry'
+
 module Comma
 
   class Extractor
