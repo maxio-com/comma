@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'comma/data_extractor'
 require 'comma/header_extractor'
+require 'comma/unsanitized_data_extractor'
 
 class Object
   class_attribute :comma_formats
@@ -9,8 +10,12 @@ class Object
     (self.comma_formats ||= {})[style] = block
   end
 
-  def to_comma(style = :default)
-    extract_with(Comma::DataExtractor, style)
+  def to_comma(style = :default, sanitize_data)
+    if sanitize_data
+      extract_with(Comma::DataExtractor, style)
+    else
+      extract_with(Comma::UnsanitizedDataExtractor, style)
+    end
   end
 
   def to_comma_headers(style = :default)
