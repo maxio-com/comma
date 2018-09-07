@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-require 'comma/unsanitized_extractor'
+require 'comma/extractor'
 
 module Comma
 
-  class UnsanitizedDataExtractor < UnsanitizedExtractor
+  class SanitizedDataExtractor < SanitizedExtractor
 
     class ExtractValueFromInstance
       def initialize(instance)

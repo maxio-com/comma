@@ -11,10 +11,10 @@ class Object
   end
 
   def to_comma(style = :default, sanitize_data)
-    if sanitize_data
+    unless sanitize_data
       extract_with(Comma::DataExtractor, style)
     else
-      extract_with(Comma::UnsanitizedDataExtractor, style)
+      extract_with(Comma::SanitizedDataExtractor, style)
     end
   end
 

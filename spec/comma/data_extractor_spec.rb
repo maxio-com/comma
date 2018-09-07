@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
@@ -14,7 +15,7 @@ describe Comma::DataExtractor do
     @isbn = Isbn.new('123123123', '321321321')
     @book = Book.new('Smalltalk-80', 'Language and Implementation', @isbn)
 
-    @data = @book.to_comma(true)
+    @data = @book.to_comma(false)
   end
 
   describe 'when no parameters are provided' do
@@ -41,7 +42,7 @@ describe Comma::DataExtractor do
       end
 
       it 'should not fail when an associated object is nil' do
-        lambda { Book.new('Smalltalk-80', 'Language and Implementation', nil).to_comma(true) }.should_not raise_error
+        lambda { Book.new('Smalltalk-80', 'Language and Implementation', nil).to_comma(false) }.should_not raise_error
       end
     end
   end
@@ -54,7 +55,7 @@ describe Comma::DataExtractor, 'id attribute' do
       comma do
         id 'ID' do |id| '42' end
       end
-    end.new(1).to_comma(true)
+    end.new(1).to_comma(false)
   end
 
   it 'id attribute should yield block' do
@@ -71,7 +72,7 @@ describe Comma::DataExtractor, 'with static column method' do
         __static_column__ 'STATIC' do '' end
         __static_column__ 'STATIC' do |o| o.name end
       end
-    end.new(1, 'John Doe').to_comma(true)
+    end.new(1, 'John Doe').to_comma(false)
   end
 
   it 'should extract headers' do
@@ -87,7 +88,7 @@ describe Comma::DataExtractor, 'nil value' do
         name 'Name'
         name 'Name' do |name| nil end
       end
-    end.new(1, nil).to_comma(true)
+    end.new(1, nil).to_comma(false)
   end
 
   it 'should extract nil' do
@@ -103,10 +104,10 @@ describe Comma::DataExtractor, 'value starting with "-", "+", "=", "@"' do
         name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
       end
-    end.new(1).to_comma(true)
+    end.new(1).to_comma(false)
   end
 
-  it 'removes special characters for non digits and leaves only digits alone' do
-    @data.should eq(["somestring", "1morestr1n6", "+1234567890"])
+  it 'not change any of the values' do
+    @data.should eq(["+somestring", "-@1morestr1n6", "+1234567890"])
   end
 end
