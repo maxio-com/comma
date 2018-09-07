@@ -112,7 +112,7 @@ describe Comma::DataExtractor, 'value starting with "-", "+", "=", "@"' do
   end
 end
 
-describe Comma::DataExtractor::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"' do
+describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"' do
   before do
     @data = Class.new(Struct.new(:name)) do
       comma do

@@ -13,7 +13,7 @@ class Object
     unless sanitize_data
       extract_with(Comma::DataExtractor, style)
     else
-      extract_with(Comma::DataExtractor::SanitizedDataExtractor, style)
+      extract_with(Comma::SanitizedDataExtractor, style)
     end
   end
 
