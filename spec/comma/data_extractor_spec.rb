@@ -111,3 +111,19 @@ describe Comma::DataExtractor, 'value starting with "-", "+", "=", "@"' do
     @data.should eq(["+somestring", "-@1morestr1n6", "+1234567890"])
   end
 end
+
+describe Comma::DataExtractor::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"' do
+  before do
+    @data = Class.new(Struct.new(:name)) do
+      comma do
+        name 'name' do |name| '+somestring' end
+        name 'name' do |name| '-@1morestr1n6' end
+        name 'name' do |name| '+1234567890' end
+      end
+    end.new(1).to_comma(true)
+  end
+
+  it 'removes special characters for non digits and leaves only digits alone' do
+    @data.should eq(["somestring", "1morestr1n6", "+1234567890"])
+  end
+end

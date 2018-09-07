@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'comma/data_extractor'
 require 'comma/header_extractor'
-require 'comma/unsanitized_data_extractor'
 
 class Object
   class_attribute :comma_formats
@@ -14,7 +13,7 @@ class Object
     unless sanitize_data
       extract_with(Comma::DataExtractor, style)
     else
-      extract_with(Comma::SanitizedDataExtractor, style)
+      extract_with(Comma::DataExtractor::SanitizedDataExtractor, style)
     end
   end
 

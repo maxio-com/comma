@@ -9,7 +9,7 @@ require 'spec_helper'
 #   isbn :number_10 => 'ISBN-10', :number_13 => 'ISBN-13'
 # end
 
-describe Comma::SanitizedDataExtractor do
+describe Comma::DataExtractor::SanitizedDataExtractor do
 
   before do
     @isbn = Isbn.new('123123123', '321321321')
@@ -49,7 +49,7 @@ describe Comma::SanitizedDataExtractor do
 
 end
 
-describe Comma::SanitizedDataExtractor, 'id attribute' do
+describe Comma::DataExtractor::SanitizedDataExtractor, 'id attribute' do
   before do
     @data = Class.new(Struct.new(:id)) do
       comma do
@@ -63,7 +63,7 @@ describe Comma::SanitizedDataExtractor, 'id attribute' do
   end
 end
 
-describe Comma::SanitizedDataExtractor, 'with static column method' do
+describe Comma::DataExtractor::SanitizedDataExtractor, 'with static column method' do
   before do
     @data = Class.new(Struct.new(:id, :name)) do
       comma do
@@ -80,7 +80,7 @@ describe Comma::SanitizedDataExtractor, 'with static column method' do
   end
 end
 
-describe Comma::SanitizedDataExtractor, 'nil value' do
+describe Comma::DataExtractor::SanitizedDataExtractor, 'nil value' do
   before do
     @data = Class.new(Struct.new(:id, :name)) do
       comma do
@@ -96,7 +96,7 @@ describe Comma::SanitizedDataExtractor, 'nil value' do
   end
 end
 
-describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"' do
+describe Comma::DataExtractor::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"' do
   before do
     @data = Class.new(Struct.new(:name)) do
       comma do
