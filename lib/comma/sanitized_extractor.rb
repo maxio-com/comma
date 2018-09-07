@@ -2,7 +2,9 @@
 
 module Comma
 
-  class SanitizedExtractor
+  class SanitizedExtractor < Extractor
+
+    private
 
     def check_for_only_digits(result)
       length = result.length
