@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'comma/data_extractor'
 require 'comma/header_extractor'
+require 'comma/sanitized_data_extractor'
 
 class Object
   class_attribute :comma_formats

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'comma/extractor'
+require 'comma/sanitized_extractor'
 
 module Comma
 

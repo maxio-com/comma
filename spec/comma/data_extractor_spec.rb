@@ -124,6 +124,6 @@ describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"'
   end
 
   it 'removes special characters for non digits and leaves only digits alone' do
-    @data.should eq(["somestring", "1morestr1n6", "+1234567890"])
+    @data.should eq(["+somestring", "-@1morestr1n6", "+1234567890"])
   end
 end
