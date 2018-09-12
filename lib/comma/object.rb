@@ -10,8 +10,8 @@ class Object
     (self.comma_formats ||= {})[style] = block
   end
 
-  def to_comma(style: :default, sanitize_data: false)
-    unless sanitize_data
+  def to_comma(style = :default, sanitize = false)
+    unless sanitize
       extract_with(Comma::DataExtractor, style)
     else
       extract_with(Comma::SanitizedDataExtractor, style)
