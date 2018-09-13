@@ -22,12 +22,39 @@ module Comma
       end
 
       def extract_value(method)
-        extraction_object.send(method)
+        value = extraction_object.send(method).to_s
+
+        if starts_with_special_characters(value)
+          if check_for_only_digits(value)
+            value
+          else
+            remove_special_characters_at_start(value)
+          end
+        else
+          value
+        end
       end
 
       def extraction_object
         @instance
       end
+
+      def check_for_only_digits(value)
+        length = value.length
+        result.start_with?("+") && (result.slice(1..length) !~ /\D/)
+      end
+
+      def starts_with_special_characters(value)
+        value.start_with?("+", "-", "=", "@")
+      end
+
+      def remove_special_characters_at_start(value)
+        while starts_with_special_characters(value)
+          value.slice!(0)
+        end
+        value
+      end
+
     end
 
     class ExtractValueFromAssociationOfInstance < ExtractValueFromInstance
