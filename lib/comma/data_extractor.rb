@@ -7,6 +7,7 @@ module Comma
 
     class ExtractValueFromInstance
       def initialize(instance)
+        binding.pry
         @instance = instance
       end
 
