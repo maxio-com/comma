@@ -2,6 +2,7 @@
 
 require 'comma/data_extractor'
 require 'comma/header_extractor'
+require 'comma/sanitized_data_extractor'
 
 class Object
   class_attribute :comma_formats
@@ -18,7 +19,11 @@ class Object
   end
 
   def to_comma(style = :default)
-    extract_with(Comma::DataExtractor, style)
+      extract_with(Comma::DataExtractor, style)
+  end
+
+  def to_comma_sanitized(style = :default)
+    extract_with(Comma::SanitizedDataExtractor, style)
   end
 
   def to_comma_headers(style = :default)
