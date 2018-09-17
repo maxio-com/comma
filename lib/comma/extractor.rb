@@ -30,7 +30,6 @@ module Comma
     def convert_to_data_value(result)
       result.nil? ? result : result.to_s
     end
-
   end
 
 end
