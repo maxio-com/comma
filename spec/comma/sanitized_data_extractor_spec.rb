@@ -12,7 +12,7 @@ require 'spec_helper'
 describe Comma::SanitizedDataExtractor do
 
   before do
-    @isbn = Isbn.new('123123123', '321321321')
+    @isbn = Isbn.new('+123123123', '-321321321')
     @book = Book.new('Smalltalk-80', 'Language and Implementation', @isbn)
 
     @data = @book.to_comma_sanitized
@@ -37,7 +37,7 @@ describe Comma::SanitizedDataExtractor do
     describe 'with a string value' do
 
       it 'should use the string value, returned by sending the hash key to the object' do
-        @data.should include('123123123')
+        @data.should include('+123123123')
         @data.should include('321321321')
       end
 
