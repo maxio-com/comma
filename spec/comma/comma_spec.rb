@@ -10,6 +10,10 @@ describe Comma do
     Object.should respond_to(:to_comma)
   end
 
+  it 'should extend object to have a to_comma_sanitized method' do
+    Object.should respond_to(:to_comma_sanitized)
+  end
+
   it 'should extend object to have a to_comma_headers method' do
     Object.should respond_to(:to_comma_headers)
   end
