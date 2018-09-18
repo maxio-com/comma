@@ -93,7 +93,6 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 1.0.0)
   comma!
-<<<<<<< HEAD
   coveralls
   rake (~> 10.5.0)
   rspec (~> 3.5.0)
