@@ -10,12 +10,12 @@ class Object
     (self.comma_formats ||= {})[style] = block
   end
 
-  def to_comma(style = :default)
+  def to_comma(style = :default, sanitized = false)
+    if !sanitized
       extract_with(Comma::DataExtractor, style)
-  end
-
-  def to_comma_sanitized(style = :default)
-    extract_with(Comma::SanitizedDataExtractor, style)
+    else
+      extract_with(Comma::SanitizedDataExtractor, style)
+    end
   end
 
   def to_comma_headers(style = :default)
