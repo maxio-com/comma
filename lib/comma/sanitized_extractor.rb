@@ -33,6 +33,11 @@ module Comma
       result.start_with?("+") && (result.slice(1..length) !~ /\D/)
     end
 
+    def check_for_decimal_values(result)
+      decimal_values = /^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/
+      (result =~ decimal_values).present?
+    end
+
     def remove_special_characters_at_start(result)
       while starts_with_special_characters(result)
         result.slice!(0)
@@ -47,7 +52,7 @@ module Comma
     def sanitize_result(result)
       result = result.to_s
       if starts_with_special_characters(result)
-        if check_for_only_digits(result)
+        if check_for_only_digits(result) || check_for_decimal_values(result)
           result
         else
           remove_special_characters_at_start(result)
