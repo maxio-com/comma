@@ -27,36 +27,35 @@ module Comma
 
     private
 
+    # this is in case the result is only + and then numbers, as in the case of a phone number
     def check_for_only_digits(result)
       length = result.length
 
       result.start_with?("+") && (result.slice(1..length) !~ /\D/)
     end
 
-    def remove_special_characters_at_start(result)
-      while starts_with_special_characters(result)
-        result.slice!(0)
-      end
+    # results would then transform from "+astring" to "'+astring"
+    def append_result_with_apostrophe(result)
+      result = "'" + result
       result
     end
 
+    # these character can cause excel to run malicious code if user clicks 'trust this'
     def starts_with_special_characters(result)
       result.start_with?("+", "-", "=", "@")
     end
 
+    # if the result begins with a bad character, prepend apostrophe, otherwise return it
     def sanitize_result(result)
       result = result.to_s
       if starts_with_special_characters(result)
-        if check_for_only_digits(result)
-          result
-        else
-          remove_special_characters_at_start(result)
-        end
+        append_result_with_apostrophe(result)
       else
         result
       end
     end
 
+    # sanitize the result unless it's nil
     def convert_to_data_value(result)
       if result.nil?
         result

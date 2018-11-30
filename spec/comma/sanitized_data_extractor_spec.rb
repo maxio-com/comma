@@ -103,11 +103,12 @@ describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"'
         name 'name' do |name| '+somestring' end
         name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
+        name 'name' do |name| '-.50' end
       end
     end.new(1).to_comma_sanitized
   end
 
-  it 'removes special characters for non digits and leaves only digits alone' do
-    @data.should eq(["somestring", "1morestr1n6", "+1234567890"])
+  it 'prepends an apostrophe in front of values that start with a special character unless it is only digits' do
+    @data.should eq(["'+somestring", "'-@1morestr1n6", "+1234567890", "'-.50"])
   end
 end
