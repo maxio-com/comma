@@ -100,19 +100,20 @@ describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"'
   before do
     @data = Class.new(Struct.new(:name)) do
       comma do
-        name 'name' do |name| '+somestring' end
-        name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
-        name 'name' do |name| '-.50' end
+        name 'name' do |name| '-$2,123,123,123.00' end
+        name 'name' do |name| '-@1morestr1n6' end
+        name 'name' do |name| '+somestring' end
       end
     end.new(1).to_comma_sanitized
   end
 
   # strings that start with a special character +-=@ are sanitized the following ways:
   # + and any number of digits (+2321432423) is un-modified
-  # - will have an apostrophe prepended to protect integrity of negative values
+  # - and less than 7 non-numerical characters is un-modified
+  # - and more than 7 non-numerical characters has an apostrophe prepended
   # other symbols are sliced off the front of strings
   it 'sanitizes the values of the strings' do
-    @data.should eq(["+somestring", "'-@1morestr1n6", "+1234567890", "'-.50"])
+    @data.should eq(["+1234567890", "-$2,123,123,123.00", "'-@1morestr1n6", "+somestring"])
   end
 end
