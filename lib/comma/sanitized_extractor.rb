@@ -28,7 +28,7 @@ module Comma
     private
 
     # this is in case the result is only + and then numbers, as in the case of a phone number
-    def result_only_numbers?(result)
+    def only_numbers?(result)
       length = result.length
 
       result.start_with?("+") && (result.slice(1..length) !~ /\D/)
@@ -65,7 +65,7 @@ module Comma
     def sanitize_result(result)
       result = result.to_s
       if starts_with_special_characters?(result)
-        if result_only_numbers?(result)
+        if only_numbers?(result)
           result
         elsif starts_with_dash?(result)
           prepend_result_with_apostrophe(result)
