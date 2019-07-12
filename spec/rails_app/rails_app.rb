@@ -7,7 +7,7 @@ require 'action_view/railtie'
 require 'rails_app/active_record/config' if defined?(ActiveRecord)
 
 app = Class.new(Rails::Application)
-app.config.secret_token = 'notarealsecrettoken'
+app.config.secret_token = SecureRandom.hex(16)
 app.config.session_store :cookie_store, :key => '_rails_app_session'
 app.config.active_support.deprecation = :log
 app.config.eager_load = false
