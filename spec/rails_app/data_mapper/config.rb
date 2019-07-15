@@ -1,3 +1,3 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 
 DataMapper.setup(:default, 'sqlite::memory:')

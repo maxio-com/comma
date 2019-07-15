@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 require 'action_controller/railtie'
 require 'action_view/railtie'
 
@@ -6,7 +7,7 @@ require 'action_view/railtie'
 require 'rails_app/active_record/config' if defined?(ActiveRecord)
 
 app = Class.new(Rails::Application)
-app.config.secret_token = 'notarealsecrettoken'
+app.config.secret_token = SecureRandom.hex(16)
 app.config.session_store :cookie_store, :key => '_rails_app_session'
 app.config.active_support.deprecation = :log
 app.config.eager_load = false
@@ -15,27 +16,51 @@ Rails.backtrace_cleaner.remove_silencers!
 app.initialize!
 
 app.routes.draw do
-  resources :users, :only => [:index]
-  get 'with_custom_options', :to => 'users#with_custom_options'
-  get 'with_custom_style', :to => 'users#with_custom_style'
-  root :to => 'users#index'
+  resources :users, only: [:index]
+  get 'with_custom_options', to: 'users#with_custom_options'
+  get 'with_custom_style', to: 'users#with_custom_style'
+  root to: 'users#index'
 end
 
 # models
 require 'rails_app/active_record/models' if defined?(ActiveRecord)
+
+def is_rails_4?
+  Rails::VERSION::STRING =~ /^4.*/
+end
+
+if is_rails_4?
+  def symbolize_param_keys(params)
+    params.symbolize_keys
+  end
+else
+  def symbolize_param_keys(params)
+    if params
+      params.to_unsafe_h.symbolize_keys
+    else
+      {}
+    end
+  end
+end
 
 # controllers
 class ApplicationController < ActionController::Base; end
 class UsersController < ApplicationController
   def index
     respond_to do |format|
-      format.html { render :text => 'Users!' }
-      format.csv  { render :csv => User.all  }
+      format.html do
+        if is_rails_4?
+          render text: 'Users!'
+        else
+          render plain: 'Users!'
+        end
+      end
+      format.csv  { render csv: User.all }
     end
   end
 
   def with_custom_options
-    render_options = {:csv => User.all}.update(params[:custom_options].symbolize_keys)
+    render_options = { csv: User.all }.update(symbolize_param_keys(params[:custom_options]))
 
     respond_to do |format|
       format.csv  { render render_options }
@@ -44,10 +69,9 @@ class UsersController < ApplicationController
 
   def with_custom_style
     respond_to do |format|
-      format.csv  { render :csv => User.all, :style => :shortened }
+      format.csv  { render csv: User.all, style: :shortened }
     end
   end
-
 end
 
 # helpers

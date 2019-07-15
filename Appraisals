@@ -1,25 +1,27 @@
-['3.0.20', '3.1.12', '3.2.17', '4.0.4', '4.1.1'].each do |version_number|
+# frozen_string_literal: true
+
+['4.2.11.1', '5.0.7.2', '5.1.7', '5.2.3'].each do |version_number|
   clean_number = version_number.gsub(/[<>~=]*/, '')
-  next if RUBY_VERSION < '1.9.3' && version_number >= '4.0.0'
 
-  appraise "rails#{ clean_number }" do
-    gem "rails", version_number
-    gem "rspec-rails"
+  appraise "rails#{clean_number}" do
+    gem 'rails', version_number
+    gem 'rspec-rails'
+    gem 'test-unit'
   end
 
-  appraise "active#{ clean_number }" do
-    gem "activesupport", version_number
-    gem "activerecord", version_number
-  end
-end
-
-if RUBY_VERSION >= '1.9.3'
-  appraise 'mongoid3.1.6' do
-    gem 'mongoid', '3.1.6'
+  appraise "active#{clean_number}" do
+    gem 'activesupport', version_number
+    gem 'activerecord', version_number
   end
 end
 
-appraise 'data_mapper1.2.0' do
-  gem 'data_mapper', '1.2.0'
-  gem 'dm-sqlite-adapter', '1.2.0'
+appraise 'rails6.0.0' do
+  gem 'rails', '6.0.0.beta3'
+  gem 'rspec-rails'
+  gem 'test-unit'
+end
+
+appraise 'active6.0.0' do
+  gem 'activesupport', '6.0.0.beta3'
+  gem 'activerecord', '6.0.0.beta3'
 end

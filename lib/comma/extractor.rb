@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 
 module Comma
-
   class Extractor
-
     def initialize(instance, style, formats)
       @instance = instance
       @style = style
@@ -12,7 +10,7 @@ module Comma
     end
 
     def results
-      instance_eval &@formats[@style]
+      instance_eval(&@formats[@style])
       @results.map { |r| convert_to_data_value(r) }
     end
 
@@ -30,7 +28,5 @@ module Comma
     def convert_to_data_value(result)
       result.nil? ? result : result.to_s
     end
-
   end
-
 end

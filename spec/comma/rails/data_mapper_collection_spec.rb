@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 if defined? DataMapper
 
-  describe Comma, 'generating CSV from an DataMapper object' do
-
+  describe Comma, 'generating CSV from an DataMapper object' do # rubocop:disable Metrics/BlockLength
     class Person
       include DataMapper::Resource
 
@@ -31,9 +31,9 @@ if defined? DataMapper
     after(:all) do
     end
 
-    describe "case" do
+    describe 'case' do
       before do
-        @person = Person.new(:age => 18, :name => 'Junior')
+        @person = Person.new(age: 18, name: 'Junior')
         @person.save
       end
 

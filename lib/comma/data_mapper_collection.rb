@@ -1,7 +1,11 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
 
-class DataMapper::Collection
-  def to_comma(style = :default)
-    Comma::Generator.new(self, style).run(:each)
+if defined?(DataMapper)
+  module DataMapper
+    class Collection
+      def to_comma(style = :default)
+        Comma::Generator.new(self, style).run(:each)
+      end
+    end
   end
 end

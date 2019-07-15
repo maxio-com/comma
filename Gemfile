@@ -1,5 +1,8 @@
-source "http://rubygems.org"
+# frozen_string_literal: true
 
-gem "fastercsv", :platforms => :ruby_18
+source 'https://rubygems.org'
 
 gemspec
+
+gem 'coveralls', require: false
+gem 'rubocop', require: false

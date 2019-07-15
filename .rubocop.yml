@@ -1,0 +1,19 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'gemfiles/**/*'
+
+Metrics/LineLength:
+  IgnoreCopDirectives: true
+  Max: 120
+
+Naming/FileName:
+  Exclude:
+    - 'Appraisals'
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+

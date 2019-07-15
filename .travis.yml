@@ -1,60 +1,51 @@
+sudo: false
+
 services: mongodb
 
 language: ruby
+cache: bundler
 rvm:
-  - 'ree'
-  - '1.8.7'
-  - '1.9.2'
-  - '1.9.3'
-  - '2.0.0'
-  - '2.1.0'
-  - 'rbx-2.1.1'
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
+  - 2.6.2
 gemfile:
-  - gemfiles/active3.0.20.gemfile
-  - gemfiles/active3.1.12.gemfile
-  - gemfiles/active3.2.17.gemfile
-  - gemfiles/active4.0.4.gemfile
-  - gemfiles/active4.1.1.gemfile
-  - gemfiles/data_mapper1.2.0.gemfile
-  - gemfiles/mongoid3.1.6.gemfile
-  - gemfiles/rails3.0.20.gemfile
-  - gemfiles/rails3.1.12.gemfile
-  - gemfiles/rails3.2.17.gemfile
-  - gemfiles/rails4.0.4.gemfile
-  - gemfiles/rails4.1.1.gemfile
+  - gemfiles/active4.2.11.1.gemfile
+  - gemfiles/active5.0.7.2.gemfile
+  - gemfiles/active5.1.7.gemfile
+  - gemfiles/active5.2.3.gemfile
+  - gemfiles/active6.0.0.gemfile
+  - gemfiles/rails4.2.11.1.gemfile
+  - gemfiles/rails5.0.7.2.gemfile
+  - gemfiles/rails5.1.7.gemfile
+  - gemfiles/rails5.2.3.gemfile
+  - gemfiles/rails6.0.0.gemfile
 matrix:
   exclude:
-    - rvm: ree
-      gemfile: gemfiles/active4.0.4.gemfile
-    - rvm: ree
-      gemfile: gemfiles/active4.1.1.gemfile
-    - rvm: ree
-      gemfile: gemfiles/mongoid3.1.6.gemfile
-    - rvm: ree
-      gemfile: gemfiles/rails4.0.4.gemfile
-    - rvm: ree
-      gemfile: gemfiles/rails4.1.1.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/active4.0.4.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/active4.1.1.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/mongoid3.1.6.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/rails4.0.4.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/rails4.1.1.gemfile
-    - rvm: 1.9.2
-      gemfile: gemfiles/active4.0.4.gemfile
-    - rvm: 1.9.2
-      gemfile: gemfiles/active4.1.1.gemfile
-    - rvm: 1.9.2
-      gemfile: gemfiles/mongoid3.1.6.gemfile
-    - rvm: 1.9.2
-      gemfile: gemfiles/rails4.0.4.gemfile
-    - rvm: 1.9.2
-      gemfile: gemfiles/rails4.1.1.gemfile
-  allow_failures:
-    - rvm: rbx-2.1.1
+    - rvm: 2.3.8
+      gemfile: gemfiles/active6.0.0.gemfile
+    - rvm: 2.3.8
+      gemfile: gemfiles/rails6.0.0.gemfile
+    - rvm: 2.4.6
+      gemfile: gemfiles/active4.2.11.1.gemfile
+    - rvm: 2.4.6
+      gemfile: gemfiles/active6.0.0.gemfile
+    - rvm: 2.4.6
+      gemfile: gemfiles/rails4.2.11.1.gemfile
+    - rvm: 2.4.6
+      gemfile: gemfiles/rails6.0.0.gemfile
+    - rvm: 2.5.5
+      gemfile: gemfiles/active4.2.11.1.gemfile
+    - rvm: 2.5.5
+      gemfile: gemfiles/rails4.2.11.1.gemfile
+    - rvm: 2.6.2
+      gemfile: gemfiles/active4.2.11.1.gemfile
+    - rvm: 2.6.2
+      gemfile: gemfiles/rails4.2.11.1.gemfile
   fast_finish: true
-script: 'bundle exec rake spec'
+before_install:
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
+script:
+  - bundle exec rake rubocop
+  - bundle exec rake spec
