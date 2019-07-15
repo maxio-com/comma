@@ -15,7 +15,7 @@ describe Comma::SanitizedDataExtractor do
     @isbn = Isbn.new('+123123123', '-321321321')
     @book = Book.new('Smalltalk-80', 'Language and Implementation', @isbn)
 
-    @data = @book.to_comma_sanitized
+    @data = @book.to_comma(:default, true)
   end
 
   describe 'when no parameters are provided' do
@@ -42,7 +42,7 @@ describe Comma::SanitizedDataExtractor do
       end
 
       it 'should not fail when an associated object is nil' do
-        lambda { Book.new('Smalltalk-80', 'Language and Implementation', nil).to_comma_sanitized }.should_not raise_error
+        lambda { Book.new('Smalltalk-80', 'Language and Implementation', nil).to_comma(:default, true) }.should_not raise_error
       end
     end
   end
@@ -55,7 +55,7 @@ describe Comma::SanitizedDataExtractor, 'id attribute' do
       comma do
         id 'ID' do |id| '42' end
       end
-    end.new(1).to_comma_sanitized
+    end.new(1).to_comma(:default, true)
   end
 
   it 'id attribute should yield block' do
@@ -72,7 +72,7 @@ describe Comma::SanitizedDataExtractor, 'with static column method' do
         __static_column__ 'STATIC' do '' end
         __static_column__ 'STATIC' do |o| o.name end
       end
-    end.new(1, 'John Doe').to_comma_sanitized
+    end.new(1, 'John Doe').to_comma(:default, true)
   end
 
   it 'should extract headers' do
@@ -88,7 +88,7 @@ describe Comma::SanitizedDataExtractor, 'nil value' do
         name 'Name'
         name 'Name' do |name| nil end
       end
-    end.new(1, nil).to_comma_sanitized
+    end.new(1, nil).to_comma(:default, true)
   end
 
   it 'should extract nil' do
@@ -104,7 +104,7 @@ describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"'
         name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
       end
-    end.new(1).to_comma_sanitized
+    end.new(1).to_comma(:default, true)
   end
 
   it 'removes special characters for non digits and leaves only digits alone' do

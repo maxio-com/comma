@@ -30,10 +30,6 @@ class Object
     extract_with(Comma::HeaderExtractor, style)
   end
 
-  def to_comma_sanitized(style = :default)
-    to_comma(style, true)
-  end
-
   private
 
   def extract_with(extractor_class, style = :default)

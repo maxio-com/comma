@@ -11,10 +11,6 @@ describe Comma do
     expect(Object).to respond_to(:to_comma)
   end
 
-  it 'should extend object to have a to_comma_sanitized method' do
-    Object.should respond_to(:to_comma_sanitized)
-  end
-
   it 'should extend object to have a to_comma_headers method' do
     expect(Object).to respond_to(:to_comma_headers)
   end
