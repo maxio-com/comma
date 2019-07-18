@@ -6,12 +6,14 @@ module Comma
       @instance = instance
       @style    = style
       @options  = {}
+      @sanitized = false
 
       return unless @style.is_a?(Hash)
 
       @options                  = @style.clone
       @style                    = @options.delete(:style) || Comma::DEFAULT_OPTIONS[:style]
       @filename                 = @options.delete(:filename)
+      @sanitized                = @options.delete(:sanitized) || false
     end
 
     def run(iterator_method)
@@ -30,7 +32,7 @@ module Comma
       csv << @instance.first.to_comma_headers(@style) unless
         @options.key?(:write_headers) && !@options[:write_headers]
       @instance.send(iterator_method) do |object|
-        csv << object.to_comma(@style)
+        csv << object.to_comma(@style, @sanitized)
       end
     end
   end

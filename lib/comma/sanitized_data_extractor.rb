@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
-require 'comma/extractor'
-require 'comma/multicolumn_extractor'
-require 'ostruct'
+# -*- coding: utf-8 -*-
+require 'comma/sanitized_extractor'
 
 module Comma
-  class DataExtractor < Extractor
+
+  class SanitizedDataExtractor < SanitizedExtractor
 
     def multicolumn(method, &block)
       Comma::MulticolumnExtractor.new(@instance, method, &block).extract_values.each do |result|
@@ -29,20 +27,11 @@ module Comma
       end
 
       def extract_value(method)
-        output = extraction_object.send(method)
-        time_zone_adjusted_value(output)
+        extraction_object.send(method)
       end
 
       def extraction_object
         @instance
-      end
-
-      def time_zone_adjusted_value(output)
-        if output.is_a?(DateTime) && extraction_object.respond_to?(:current_time_zone) && extraction_object.current_time_zone
-          output.in_time_zone(extraction_object.current_time_zone)
-        else
-          output
-        end
       end
     end
 
@@ -60,7 +49,7 @@ module Comma
 
       def null_association
         @null_association ||= Class.new(Class.const_defined?(:BasicObject) ? ::BasicObject : ::Object) do
-          def method_missing(_symbol, *_args, &_block)
+          def method_missing(symbol, *args, &block)
             nil
           end
         end.new
@@ -68,13 +57,14 @@ module Comma
     end
 
     def method_missing(sym, *args, &block)
-      @results << ExtractValueFromInstance.new(@instance).extract(sym, &block) if
-        args.blank?
+      if args.blank?
+        @results << ExtractValueFromInstance.new(@instance).extract(sym, &block)
+      end
 
       args.each do |arg|
         case arg
         when Hash
-          arg.each do |k, _v|
+          arg.each do |k, v|
             @results << ExtractValueFromAssociationOfInstance.new(@instance, sym).extract(k, &block)
           end
         when Symbol
@@ -87,7 +77,7 @@ module Comma
       end
     end
 
-    def __static_column__(_header = nil, &block)
+    def __static_column__(header = nil, &block)
       @results << (block ? yield(@instance) : nil)
     end
   end
