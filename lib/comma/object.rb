@@ -18,23 +18,23 @@ class Object
     end
   end
 
-  def to_comma(style = :default, sanitized = false)
+  def to_comma(style = :default, sanitized = false, globals = {})
     if !sanitized
-      extract_with(Comma::DataExtractor, style)
+      extract_with(Comma::DataExtractor, style, globals)
     else
-      extract_with(Comma::SanitizedDataExtractor, style)
+      extract_with(Comma::SanitizedDataExtractor, style, globals)
     end
   end
 
-  def to_comma_headers(style = :default)
-    extract_with(Comma::HeaderExtractor, style)
+  def to_comma_headers(style = :default, globals = {})
+    extract_with(Comma::HeaderExtractor, style, globals)
   end
 
   private
 
-  def extract_with(extractor_class, style = :default)
+  def extract_with(extractor_class, style = :default, globals = {})
     raise_unless_style_exists(style)
-    extractor_class.new(self, style, self.comma_formats).results
+    extractor_class.new(self, style, self.comma_formats, globals).results
   end
 
   def raise_unless_style_exists(style)

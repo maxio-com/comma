@@ -98,6 +98,11 @@ describe Comma, 'generating CSV with multicolumn dynamic fields' do
   it 'should extend Array to add a #to_comma method which will return CSV content for objects within the array' do
     [nested_field].to_comma.should == "Name,OBJ ~ ID,OBJ ~ Name,OBJ ~ Value,OBJ ~ ID,OBJ ~ Name,OBJ ~ Value\nFred,123,Foo,fritz,123,Bar,bank\n"
   end
+
+  it 'should pass globals to multicolumn block' do
+    field_with_global = MultiAttributeFieldWithGlobals.new("Fred", fields)
+    expect([field_with_global].to_comma(globals: { from_global: 'some_value_from_global' } )).to eq("Name,from_global,from_global\nFred,some_value_from_global,some_value_from_global\n")
+  end
 end
 
 describe Comma, 'defining CSV descriptions' do

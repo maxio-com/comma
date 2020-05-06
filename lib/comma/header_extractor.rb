@@ -17,7 +17,7 @@ module Comma
     self.value_humanizer = DEFAULT_VALUE_HUMANIZER
 
     def multicolumn(method, &block)
-      Comma::MulticolumnExtractor.new(@instance, method, &block).extract_header.each do |result|
+      Comma::MulticolumnExtractor.new(@instance, method, @globals, &block).extract_header.each do |result|
         @results << result
       end
     end

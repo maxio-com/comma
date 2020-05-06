@@ -7,6 +7,7 @@ module Comma
       @style    = style
       @options  = {}
       @sanitized = false
+      @globals = {}
 
       return unless @style.is_a?(Hash)
 
@@ -14,6 +15,7 @@ module Comma
       @style                    = @options.delete(:style) || Comma::DEFAULT_OPTIONS[:style]
       @filename                 = @options.delete(:filename)
       @sanitized                = @options.delete(:sanitized) || false
+      @globals                  = @options.delete(:globals) || {}
     end
 
     def run(iterator_method)
@@ -29,10 +31,10 @@ module Comma
     def append_csv(csv, iterator_method)
       return '' if @instance.empty?
 
-      csv << @instance.first.to_comma_headers(@style) unless
+      csv << @instance.first.to_comma_headers(@style, @globals) unless
         @options.key?(:write_headers) && !@options[:write_headers]
       @instance.send(iterator_method) do |object|
-        csv << object.to_comma(@style, @sanitized)
+        csv << object.to_comma(@style, @sanitized, @globals)
       end
     end
   end
