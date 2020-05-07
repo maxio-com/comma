@@ -54,6 +54,21 @@ class MultiAttributeField
   end
 end
 
+class MultiAttributeFieldWithGlobals
+  attr_accessor :name, :address, :number, :children
+
+  def initialize(name,  children = [])
+    @name, @children = name, children
+  end
+
+  comma do
+    name
+    multicolumn :children do |result, _field, _child, globals|
+      result << { 'name' => 'from_global', 'value' => globals[:from_global]}
+    end
+  end
+end
+
 class Field
   attr_accessor :name, :value
 

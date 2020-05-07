@@ -2,10 +2,11 @@
 
 module Comma
   class Extractor
-    def initialize(instance, style, formats)
+    def initialize(instance, style, formats, globals = {})
       @instance = instance
       @style = style
       @formats = formats
+      @globals = globals
       @results = []
     end
 

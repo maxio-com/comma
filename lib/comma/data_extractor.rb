@@ -8,7 +8,7 @@ module Comma
   class DataExtractor < Extractor
 
     def multicolumn(method, &block)
-      Comma::MulticolumnExtractor.new(@instance, method, &block).extract_values.each do |result|
+      Comma::MulticolumnExtractor.new(@instance, method, @globals, &block).extract_values.each do |result|
         @results << result
       end
     end

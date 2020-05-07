@@ -2,10 +2,10 @@ require "ostruct"
 
 module Comma
   class MulticolumnExtractor
-    attr_accessor :instance, :method, :block
+    attr_accessor :instance, :method, :block, :globals
 
-    def initialize(instance, method, &block)
-      @instance, @method, @block = instance, method, block
+    def initialize(instance, method, globals, &block)
+      @instance, @method, @globals, @block = instance, method, globals, block
     end
 
     def extract_header
@@ -26,7 +26,7 @@ module Comma
         children = instance.send(method)
         [children].flatten.compact.each do |child|
           memo = Array.new
-          block.yield memo, instance, child
+          block.yield(memo, instance, child, globals)
           memo.each{|m| output << OpenStruct.new(m) }
         end
       end
