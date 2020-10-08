@@ -24,6 +24,7 @@ require 'comma/data_mapper_collection' if defined? DataMapper
 require 'comma/generator'
 require 'comma/array'
 require 'comma/object'
+require 'ar-find-in-batches-with-order'
 
 # Load into Rails controllers
 ActiveSupport.on_load(:action_controller) do
