@@ -103,11 +103,13 @@ describe Comma::SanitizedDataExtractor, 'value starting with "-", "+", "=", "@"'
         name 'name' do |name| '+somestring' end
         name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
+        name 'name' do |name| '-1234567890' end
+        name 'name' do |name| '-2+3+cmd|' end
       end
     end.new(1).to_comma(:default, true)
   end
 
   it 'removes special characters for non digits and leaves only digits alone' do
-    @data.should eq(["somestring", "1morestr1n6", "+1234567890"])
+    @data.should eq(["somestring", "1morestr1n6", "+1234567890", "-1234567890", "2+3+cmd|"])
   end
 end
