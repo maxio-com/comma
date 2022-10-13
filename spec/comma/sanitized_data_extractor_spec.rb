@@ -38,7 +38,7 @@ describe Comma::SanitizedDataExtractor do
 
       it 'should use the string value, returned by sending the hash key to the object' do
         @data.should include('+123123123')
-        @data.should include('321321321')
+        @data.should include('-321321321')
       end
 
       it 'should not fail when an associated object is nil' do

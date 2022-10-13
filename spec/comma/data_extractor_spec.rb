@@ -97,11 +97,12 @@ describe Comma::DataExtractor, 'value starting with "-", "+", "=", "@"' do
         name 'name' do |name| '+somestring' end
         name 'name' do |name| '-@1morestr1n6' end
         name 'name' do |name| '+1234567890' end
+        name 'name' do |name| '-1234567890' end
       end
     end.new(1).to_comma
   end
 
   it 'not change any of the values' do
-    @data.should eq(["+somestring", "-@1morestr1n6", "+1234567890"])
+    @data.should eq(["+somestring", "-@1morestr1n6", "+1234567890", "-1234567890"])
   end
 end

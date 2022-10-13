@@ -31,7 +31,7 @@ module Comma
     def check_for_only_digits(result)
       length = result.length
 
-      result.start_with?("+") && (result.slice(1..length) !~ /\D/)
+      result.start_with?("+", "-") && (result.slice(1..length) !~ /\D/)
     end
 
     def remove_special_characters_at_start(result)
