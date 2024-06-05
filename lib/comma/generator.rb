@@ -31,7 +31,7 @@ module Comma
     def append_csv(csv, iterator_method)
       return '' if @instance.empty?
 
-      csv << @instance.first.to_comma_headers(@style, @globals) unless
+      csv << @instance.take(1).first.to_comma_headers(@style, @globals) unless
         @options.key?(:write_headers) && !@options[:write_headers]
       @instance.send(iterator_method) do |object|
         csv << object.to_comma(@style, @sanitized, @globals)
