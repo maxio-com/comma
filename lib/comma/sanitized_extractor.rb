@@ -46,7 +46,12 @@ module Comma
     end
 
     def sanitize_result(result)
-      result = result.to_s
+      if result.is_a?(ActiveSupport::TimeWithZone)
+        result = result.to_fs
+      else
+        result = result.to_s
+      end
+
       if starts_with_special_characters(result)
         if check_for_only_digits(result)
           result
